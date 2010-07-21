@@ -5,9 +5,10 @@ DTexture::DTexture()
 	pos.X=0;pos.Y=0;
 	currentTexture=0;
 	numTexture=0;
+	u32 lasttime=-1;
 }
 
-void DTexture::insert(video::ITexture* images,core::position2d<s32> pos,core::rect<s32> rct,float time)
+void DTexture::insert(video::ITexture* images,core::position2d<s32> pos,core::rect<s32> rct, int time)
 {
 	imagesarray.push_back(images);
 	posarray.push_back(pos);
@@ -29,9 +30,8 @@ void DTexture::setDevice(irr::IrrlichtDevice*	device)
 }
 void DTexture::draw()
 {
-	/*core::rect<s32> imp1(349,15,385,78);
-	core::rect<s32> imp2(387,15,423,78);
-	u32 time =device->getTimer()->getTime();*/
+	if(lasttime==-1)
+		lasttime=device->getTimer()->getTime();
 
 	if(numTexture>0)
 	{
@@ -40,12 +40,11 @@ void DTexture::draw()
 				rctarray[currentTexture], 0,
 				video::SColor(255,255,255,255), true);
 	}
-	/*driver->makeColorKeyTexture(images, core::position2d<s32>(0,0));
-	driver->draw2DImage(images, pos,
-				rct, 0,
-				video::SColor(255,255,255,255), true);
-
-	driver->draw2DImage(images, core::position2d<s32>(164,125),
-				(time/500 % 2) ? rctarray[0] : rctarray[1], 0,
-				video::SColor(255,255,255,255), true);*/
+	if((device->getTimer()->getTime()-lasttime)/1000>=timearray[currentTexture])
+	{
+		lasttime=device->getTimer()->getTime();
+		currentTexture++;
+		if(currentTexture>=numTexture)
+			currentTexture=0;
+	}
 }
