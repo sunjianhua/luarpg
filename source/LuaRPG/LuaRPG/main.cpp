@@ -98,6 +98,7 @@ int	main()
 	texture1->setDevice(g_pIrr);
 	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32>(349,15,385,78),1);
 	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32> (387,15,423,78),1);
+	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32> (387-30,15,423-30,78),1);
 
 	IGUIFont* font = guienv->getFont("../../media/fonthaettenschweiler.bmp");
 	skin->setFont(guienv->getBuiltInFont(), EGDF_TOOLTIP);

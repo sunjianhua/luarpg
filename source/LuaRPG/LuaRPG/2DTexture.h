@@ -14,9 +14,10 @@ public:
 	void setPos(core::position2d<s32> pos);
 	void setDriver(IVideoDriver* driver);
 	void setDevice(irr::IrrlichtDevice*	device);
-	void insert(video::ITexture* images,core::position2d<s32> pos,core::rect<s32> rct,float time);
+	void insert(video::ITexture* images,core::position2d<s32> pos,core::rect<s32> rct,int time);
 	void draw();
 private:
+	u32 lasttime;
 	int numTexture;
 	int currentTexture;
 	irr::IrrlichtDevice*	device;
@@ -25,5 +26,5 @@ private:
 	core::array<video::ITexture*> imagesarray;
 	core::array<core::position2d<s32>>  posarray;
 	core::array<core::rect<s32>>  rctarray;
-	core::array<float> timearray;
+	core::array<int> timearray;
 };
