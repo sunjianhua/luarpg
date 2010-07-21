@@ -12,14 +12,18 @@ public:
 	DTexture();
 	~DTexture();
 	void setPos(core::position2d<s32> pos);
-	void setRect(core::rect<s32> rct);
-	void setTexture(video::ITexture* images);
 	void setDriver(IVideoDriver* driver);
+	void setDevice(irr::IrrlichtDevice*	device);
+	void insert(video::ITexture* images,core::position2d<s32> pos,core::rect<s32> rct,float time);
 	void draw();
 private:
+	int numTexture;
+	int currentTexture;
+	irr::IrrlichtDevice*	device;
 	IVideoDriver* driver;
-	video::ITexture* images;
 	core::position2d<s32> pos;
-	core::rect<s32> rct;
-
+	core::array<video::ITexture*> imagesarray;
+	core::array<core::position2d<s32>>  posarray;
+	core::array<core::rect<s32>>  rctarray;
+	core::array<float> timearray;
 };
