@@ -88,9 +88,17 @@ int	main()
 	g_pGame->Initialize();
 	IGUISkin* skin = guienv->getSkin();
 	video::ITexture* images = driver->getTexture("../../media/2ddemo.png");
+
 	DTexture *texture=new DTexture();
-	texture->setDriver(driver);texture->setPos(core::position2d<s32>(0,0));
-	texture->setRect(core::rect<s32>(0,0,342,224));texture->setTexture(images);
+	texture->setDriver(driver);
+	texture->setDevice(g_pIrr);
+	texture->insert(images,core::position2d<s32>(0,0),core::rect<s32>(0,0,342,224),1);
+	DTexture *texture1=new DTexture();
+	texture1->setDriver(driver);
+	texture1->setDevice(g_pIrr);
+	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32>(349,15,385,78),1);
+	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32> (387,15,423,78),1);
+
 	IGUIFont* font = guienv->getFont("../../media/fonthaettenschweiler.bmp");
 	skin->setFont(guienv->getBuiltInFont(), EGDF_TOOLTIP);
 
@@ -178,6 +186,7 @@ int	main()
 			pos.X += 1;
 		texture->setPos(pos);
 		texture->draw();
+		texture1->draw();
 		/*core::vector3df nodePosition = node->getPosition();
 
 		if(receiver.IsKeyDown(irr::KEY_KEY_W))
