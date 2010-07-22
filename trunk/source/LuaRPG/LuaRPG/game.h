@@ -20,7 +20,9 @@ enum
 {
 	GUI_ID_START_BUTTON = 101,
 	GUI_ID_SET_BUTTON,
-	GUI_ID_QUIT_BUTTON
+	GUI_ID_QUIT_BUTTON,
+	GUI_ID_QUIT_YES_BUTTON,
+	GUI_ID_QUIT_NO_BUTTON
 };
 
 class MyEventReceiver : public IEventReceiver
@@ -52,6 +54,16 @@ public:
 							break;
 
 						case GUI_ID_QUIT_BUTTON:
+							state=2;
+							change=true;
+							break;
+						case GUI_ID_QUIT_YES_BUTTON:
+							state=3;
+							change=true;
+							break;
+						case GUI_ID_QUIT_NO_BUTTON:
+							state=0;
+							change=true;
 							break;
 						default:
 							return false;
@@ -96,9 +108,9 @@ public:
 	virtual  bool setScene(int num);
 protected:
 private:
-	DTexture *texture;
-	DTexture *texture1;
-	
+	core::array<DTexture*> texturearray;
+	DTexture *background;
+	DTexture *character;
 	MyEventReceiver receiver;
 	irr::IrrlichtDevice*	g_pIrr;
 	IVideoDriver* driver;

@@ -78,112 +78,16 @@ CGame*	g_pGame;
 
 int	main()
 {
-	g_pIrr = createDevice( video::EDT_DIRECT3D9,	core::dimension2d<u32>(1024,768) ,16, false, false, false,0);
+	g_pIrr = createDevice( video::EDT_DIRECT3D9,	core::dimension2d<u32>(640,480) ,16, false, false, false,0);
 	driver=g_pIrr->getVideoDriver();
 	smgr=g_pIrr->getSceneManager();
 	guienv=g_pIrr->getGUIEnvironment();
 	g_pGame = new CGame;
 	g_pGame->Initialize(g_pIrr,driver,smgr,guienv);
-	/*IGUISkin* skin = guienv->getSkin();
-	video::ITexture* images = driver->getTexture("../../media/2ddemo.png");
-
-	DTexture *texture=new DTexture();
-	texture->setDriver(driver);
-	texture->setDevice(g_pIrr);
-	texture->insert(images,core::position2d<s32>(0,0),core::rect<s32>(0,0,342,224),1);
-	DTexture *texture1=new DTexture();
-	texture1->setDriver(driver);
-	texture1->setDevice(g_pIrr);
-	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32>(349,15,385,78),1);
-	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32> (387,15,423,78),1);
-
-	IGUIFont* font = guienv->getFont("../../media/fonthaettenschweiler.bmp");
-	skin->setFont(guienv->getBuiltInFont(), EGDF_TOOLTIP);
-
-	guienv->addButton(rect<s32>(412,440,612,440 + 32), 0, GUI_ID_START_BUTTON,
-			L"Start Games", L"Start Program");
-
-	guienv->addButton(rect<s32>(412,480,612,480 + 32), 0, GUI_ID_QUIT_BUTTON,
-			L"Quit Games", L"Exit Program");
-	g_pIrr->setEventReceiver(&receiver);*/
-	/*
-	guienv->addStaticText(L"adfafdadf",rect<int>(10,10,260,22),true);
-	scene::ISceneNode * node = smgr->addSphereSceneNode();
-	if (node)
-	{
-		node->setPosition(core::vector3df(0,0,30));
-		node->setMaterialTexture(0, driver->getTexture("../../media/wall.bmp"));
-		node->setMaterialFlag(video::EMF_LIGHTING, false);
-	}
-	scene::ISceneNode* n = smgr->addCubeSceneNode();
-
-	if (n)
-	{
-		n->setMaterialTexture(0, driver->getTexture("../../media/t351sml.jpg"));
-		n->setMaterialFlag(video::EMF_LIGHTING, false);
-		scene::ISceneNodeAnimator* anim =
-			smgr->createFlyCircleAnimator(core::vector3df(0,0,30), 20.0f);
-		if (anim)
-		{
-			n->addAnimator(anim);
-			anim->drop();
-		}
-	}
-	scene::IAnimatedMeshSceneNode* anms =
-		smgr->addAnimatedMeshSceneNode(smgr->getMesh("../../media/ninja.b3d"));
-
-	if (anms)
-	{
-		scene::ISceneNodeAnimator* anim =
-			smgr->createFlyStraightAnimator(core::vector3df(100,0,60),
-			core::vector3df(-100,0,60), 3500, true);
-		if (anim)
-		{
-			anms->addAnimator(anim);
-			anim->drop();
-		}
-
-		anms->setMaterialFlag(video::EMF_LIGHTING, false);
-
-		anms->setFrameLoop(0, 13);
-		anms->setAnimationSpeed(15);
-
-		anms->setScale(core::vector3df(2.f,2.f,2.f));
-		anms->setRotation(core::vector3df(0,-90,0));
-
-	}
-
-	smgr->addCameraSceneNodeMaya();
-	g_pIrr->getCursorControl()->setVisible(false);
-
-	gui::IGUIStaticText* diagnostics = g_pIrr->getGUIEnvironment()->addStaticText(
-		L"", core::rect<s32>(10, 10, 400, 20));
-	diagnostics->setOverrideColor(video::SColor(255, 255, 255, 0));
-
-	int lastFPS = -1;
-	const f32 MOVEMENT_SPEED = 5.f;
-	*/
-	/*smgr->addCameraSceneNodeMaya();
-	core::position2d<s32> pos=core::position2d<s32>(0,0);*/
 	while ( g_pIrr->run() )
 	{
 		g_pGame->Update();
 		g_pGame->Render();
-		//driver->beginScene(true,true,SColor(255,100,101,140));
-		//if(receiver.IsKeyDown(irr::KEY_KEY_W))
-		//	pos.Y -= 1;
-		//else if(receiver.IsKeyDown(irr::KEY_KEY_S))
-		//	pos.Y += 1;
-
-		//if(receiver.IsKeyDown(irr::KEY_KEY_A))
-		//	pos.X -= 1;
-		//else if(receiver.IsKeyDown(irr::KEY_KEY_D))
-		//	pos.X += 1;
-		//texture->setPos(pos);
-		//texture->draw();
-		//texture1->draw();
-		//smgr->drawAll();
-		//guienv->drawAll();
 	}
 	g_pIrr->drop();
 	return 0;

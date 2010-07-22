@@ -1,5 +1,4 @@
 #include "2DTexture.h"
-
 DTexture::DTexture()
 {
 	pos.X=0;pos.Y=0;
@@ -36,7 +35,7 @@ void DTexture::draw()
 	if(numTexture>0)
 	{
 		driver->makeColorKeyTexture(imagesarray[currentTexture], core::position2d<s32>(0,0));
-		driver->draw2DImage(imagesarray[currentTexture], pos+posarray[currentTexture],
+		driver->draw2DImage(imagesarray[currentTexture],pos+posarray[currentTexture],
 				rctarray[currentTexture], 0,
 				video::SColor(255,255,255,255), true);
 	}
