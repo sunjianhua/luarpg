@@ -3,7 +3,6 @@
 //
 #include <irrlicht.h>
 #include	"game.h"
-#include "2DTexture.h"
 using namespace irr;
 using namespace core;
 using namespace scene;
@@ -11,82 +10,81 @@ using namespace video;
 using namespace io;
 using namespace gui;
 irr::IrrlichtDevice*	g_pIrr;
-CGame*	g_pGame;
 IVideoDriver* driver;
 ISceneManager* smgr;
 IGUIEnvironment* guienv;
-enum
-{
-	GUI_ID_START_BUTTON = 101,
-	GUI_ID_QUIT_BUTTON
-};
+CGame*	g_pGame;
 
-class MyEventReceiver : public IEventReceiver
-{
-public:
-	//MyEventReceiver(SAppContext & context) : Context(context) { }
-	// This is the one method that we have to implement
-	virtual bool OnEvent(const SEvent& event)
-	{
-		// Remember whether each key is down or up
-		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
-			KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-
-		if (event.EventType == EET_GUI_EVENT)
-		{
-			s32 id = event.GUIEvent.Caller->getID();
-			//IGUIEnvironment* env = Context.device->getGUIEnvironment();
-
-			switch(event.GUIEvent.EventType)
-			{
-				case EGET_BUTTON_CLICKED:
-					switch(id)
-					{
-						case GUI_ID_START_BUTTON:
-							break;
-
-						case GUI_ID_QUIT_BUTTON:
-							break;
-						default:
-							return false;
-					}
-					break;
-				default:
-					break;
-			}
-		}
-		return false;
-	}
-
-	// This is used to check whether a key is being held down
-	virtual bool IsKeyDown(EKEY_CODE keyCode) const
-	{
-		return KeyIsDown[keyCode];
-	}
-	
-	MyEventReceiver()
-	{
-		for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
-			KeyIsDown[i] = false;
-	}
-
-private:
-	// We use this array to store the current state of each key
-	bool KeyIsDown[KEY_KEY_CODES_COUNT];
-	//SAppContext & Context;
-};
+//enum
+//{
+//	GUI_ID_START_BUTTON = 101,
+//	GUI_ID_QUIT_BUTTON
+//};
+//
+//class MyEventReceiver : public IEventReceiver
+//{
+//public:
+//	//MyEventReceiver(SAppContext & context) : Context(context) { }
+//	// This is the one method that we have to implement
+//	virtual bool OnEvent(const SEvent& event)
+//	{
+//		// Remember whether each key is down or up
+//		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
+//			KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
+//
+//		if (event.EventType == EET_GUI_EVENT)
+//		{
+//			s32 id = event.GUIEvent.Caller->getID();
+//			//IGUIEnvironment* env = Context.device->getGUIEnvironment();
+//
+//			switch(event.GUIEvent.EventType)
+//			{
+//				case EGET_BUTTON_CLICKED:
+//					switch(id)
+//					{
+//						case GUI_ID_START_BUTTON:
+//							break;
+//
+//						case GUI_ID_QUIT_BUTTON:
+//							break;
+//						default:
+//							return false;
+//					}
+//					break;
+//				default:
+//					break;
+//			}
+//		}
+//		return false;
+//	}
+//
+//	// This is used to check whether a key is being held down
+//	virtual bool IsKeyDown(EKEY_CODE keyCode) const
+//	{
+//		return KeyIsDown[keyCode];
+//	}
+//	
+//	MyEventReceiver()
+//	{
+//		for (u32 i=0; i<KEY_KEY_CODES_COUNT; ++i)
+//			KeyIsDown[i] = false;
+//	}
+//
+//private:
+//	// We use this array to store the current state of each key
+//	bool KeyIsDown[KEY_KEY_CODES_COUNT];
+//};
 
 
 int	main()
 {
-	MyEventReceiver receiver;
-	g_pIrr = createDevice( video::EDT_DIRECT3D9,	core::dimension2d<u32>(1024,768) ,16, false, false, false,&receiver);
+	g_pIrr = createDevice( video::EDT_DIRECT3D9,	core::dimension2d<u32>(1024,768) ,16, false, false, false,0);
 	driver=g_pIrr->getVideoDriver();
 	smgr=g_pIrr->getSceneManager();
 	guienv=g_pIrr->getGUIEnvironment();
 	g_pGame = new CGame;
-	g_pGame->Initialize();
-	IGUISkin* skin = guienv->getSkin();
+	g_pGame->Initialize(g_pIrr,driver,smgr,guienv);
+	/*IGUISkin* skin = guienv->getSkin();
 	video::ITexture* images = driver->getTexture("../../media/2ddemo.png");
 
 	DTexture *texture=new DTexture();
@@ -98,7 +96,6 @@ int	main()
 	texture1->setDevice(g_pIrr);
 	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32>(349,15,385,78),1);
 	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32> (387,15,423,78),1);
-	texture1->insert(images,core::position2d<s32>(0,0),core::rect<s32> (387-30,15,423-30,78),1);
 
 	IGUIFont* font = guienv->getFont("../../media/fonthaettenschweiler.bmp");
 	skin->setFont(guienv->getBuiltInFont(), EGDF_TOOLTIP);
@@ -108,7 +105,7 @@ int	main()
 
 	guienv->addButton(rect<s32>(412,480,612,480 + 32), 0, GUI_ID_QUIT_BUTTON,
 			L"Quit Games", L"Exit Program");
-	g_pIrr->setEventReceiver(&receiver);
+	g_pIrr->setEventReceiver(&receiver);*/
 	/*
 	guienv->addStaticText(L"adfafdadf",rect<int>(10,10,260,22),true);
 	scene::ISceneNode * node = smgr->addSphereSceneNode();
@@ -166,44 +163,27 @@ int	main()
 	int lastFPS = -1;
 	const f32 MOVEMENT_SPEED = 5.f;
 	*/
-	smgr->addCameraSceneNodeMaya();
-	core::position2d<s32> pos=core::position2d<s32>(0,0);
+	/*smgr->addCameraSceneNodeMaya();
+	core::position2d<s32> pos=core::position2d<s32>(0,0);*/
 	while ( g_pIrr->run() )
 	{
 		g_pGame->Update();
 		g_pGame->Render();
-		driver->beginScene(true,true,SColor(255,100,101,140));
-		/*driver->draw2DImage(images, core::position2d<s32>(50,50),
-				core::rect<s32>(0,0,342,224), 0,
-				video::SColor(255,255,255,255), true);*/
-		if(receiver.IsKeyDown(irr::KEY_KEY_W))
-			pos.Y -= 1;
-		else if(receiver.IsKeyDown(irr::KEY_KEY_S))
-			pos.Y += 1;
+		//driver->beginScene(true,true,SColor(255,100,101,140));
+		//if(receiver.IsKeyDown(irr::KEY_KEY_W))
+		//	pos.Y -= 1;
+		//else if(receiver.IsKeyDown(irr::KEY_KEY_S))
+		//	pos.Y += 1;
 
-		if(receiver.IsKeyDown(irr::KEY_KEY_A))
-			pos.X -= 1;
-		else if(receiver.IsKeyDown(irr::KEY_KEY_D))
-			pos.X += 1;
-		texture->setPos(pos);
-		texture->draw();
-		texture1->draw();
-		/*core::vector3df nodePosition = node->getPosition();
-
-		if(receiver.IsKeyDown(irr::KEY_KEY_W))
-			nodePosition.Y += 1;
-		else if(receiver.IsKeyDown(irr::KEY_KEY_S))
-			nodePosition.Y -= 1;
-
-		if(receiver.IsKeyDown(irr::KEY_KEY_A))
-			nodePosition.X -= 1;
-		else if(receiver.IsKeyDown(irr::KEY_KEY_D))
-			nodePosition.X += 1;
-
-		node->setPosition(nodePosition);*/
-		smgr->drawAll();
-		guienv->drawAll();
-		driver->endScene();
+		//if(receiver.IsKeyDown(irr::KEY_KEY_A))
+		//	pos.X -= 1;
+		//else if(receiver.IsKeyDown(irr::KEY_KEY_D))
+		//	pos.X += 1;
+		//texture->setPos(pos);
+		//texture->draw();
+		//texture1->draw();
+		//smgr->drawAll();
+		//guienv->drawAll();
 	}
 	g_pIrr->drop();
 	return 0;
