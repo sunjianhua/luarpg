@@ -116,6 +116,7 @@ private:
 	IVideoDriver* driver;
 	ISceneManager* smgr;
 	IGUIEnvironment* guienv;
+	core::position2d<s32> dpos;
 };
 
 #endif
