@@ -40,7 +40,7 @@ void DTexture::draw()
 				rctarray[currentTexture], 0,
 				video::SColor(255,255,255,255), true);
 	}
-	if((device->getTimer()->getTime()-lasttime)/1000>=timearray[currentTexture])
+	if((device->getTimer()->getTime()-lasttime)/500>=timearray[currentTexture])
 	{
 		lasttime=device->getTimer()->getTime();
 		currentTexture++;
