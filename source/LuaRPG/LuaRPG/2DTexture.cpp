@@ -8,6 +8,13 @@ DTexture::DTexture()
 	state=0;
 	character=1;
 }
+DTexture::~DTexture()
+{
+	for(int i=0;i<numTexture;i++)
+	{
+		delete imagesarray[i];
+	}
+}
 void DTexture::setSize(int w,int h)
 {
 	this->w=w;
