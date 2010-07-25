@@ -87,7 +87,7 @@ int	main()
 	while ( g_pIrr->run() )
 	{
 		g_pGame->Update();
-		g_pGame->Render();
+ 		g_pGame->Render();
 	}
 	g_pIrr->drop();
 	return 0;

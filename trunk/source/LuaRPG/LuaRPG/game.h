@@ -97,10 +97,7 @@ class	CGame
 {
 public:
 	CGame();
-
 	~CGame();
-
-	//
 	virtual	bool	Initialize(irr::IrrlichtDevice*	g_pIrr,IVideoDriver* driver,ISceneManager* smgr,IGUIEnvironment* guienv);
 	virtual	bool	Update();
 	virtual	bool	Render();
@@ -108,7 +105,10 @@ public:
 	virtual  bool setScene(int num);
 protected:
 private:
-	core::array<DTexture*> texturearray;
+	core::array<DTexture*> texturearray;   //trees  ,rocks
+	core::array<DTexture*> housearray;     //building
+	core::array<DTexture*> npcarray;         //npc
+	core::array<video::ITexture*> itemarray;		//battles items
 	DTexture *background;
 	DTexture *character;
 	MyEventReceiver receiver;
