@@ -1,6 +1,7 @@
 #include "2DTexture.h"
 DTexture::DTexture()
 {
+	time=0;
 	pos.X=0;pos.Y=0;
 	currentTexture=0;
 	numTexture=0;
@@ -27,6 +28,48 @@ int DTexture::getW()
 int DTexture::getH()
 {
 	return h;
+}
+void DTexture::setAI(int i)
+{
+	time++;
+	switch(i)
+	{
+	case 0:
+		int t=time/200;
+		if(t%4==0)
+		{
+			this->state=3;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]-=core::position2d<s32> (0,1);
+			}
+		}
+		else if(t%4==1)
+		{
+			this->state=0;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]+=core::position2d<s32> (0,1);
+			}
+		}
+		else if(t%4==2)
+		{
+			this->state=1;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]-=core::position2d<s32> (1,0);
+			}
+		}
+		else if(t%4==3)
+		{
+			this->state=2;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]+=core::position2d<s32> (1,0);
+			}
+		}
+		break;
+	}
 }
 void DTexture::insert(video::ITexture* images,core::position2d<s32> pos,core::rect<s32> rct, int time)
 {
