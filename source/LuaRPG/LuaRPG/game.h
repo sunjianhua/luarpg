@@ -109,6 +109,7 @@ private:
 	core::array<DTexture*> housearray;     //building
 	core::array<DTexture*> npcarray;         //npc
 	core::array<video::ITexture*> itemarray;		//battles items
+	core::array<DTexture*> gatearray;
 	DTexture *background;
 	DTexture *character;
 	MyEventReceiver receiver;
