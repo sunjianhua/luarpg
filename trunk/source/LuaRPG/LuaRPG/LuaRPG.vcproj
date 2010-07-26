@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -57,7 +57,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="irrlicht.lib"
+				AdditionalDependencies="irrlicht.lib lua5.1.lib lua51.lib"
+				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -186,11 +187,21 @@
 			>
 		</Filter>
 		<Filter
-			Name="资源文件"
-			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
+			Name="Lua loader"
 			>
+			<File
+				RelativePath=".\lua loader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\lua loader.h"
+				>
+			</File>
 		</Filter>
+		<File
+			RelativePath=".\init.lua"
+			>
+		</File>
 		<File
 			RelativePath=".\main.cpp"
 			>
