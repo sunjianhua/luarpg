@@ -2,7 +2,10 @@
 //
 //
 #include <irrlicht.h>
+#include <string>
 #include	"game.h"
+#include "lua loader.h"
+
 using namespace irr;
 using namespace core;
 using namespace scene;
@@ -78,6 +81,14 @@ CGame*	g_pGame;
 
 int	main()
 {
+	
+	CLuaLoader* loader = new CLuaLoader;
+	loader->Init();
+	int code = loader->LoadFile( -1, "init.lua" );
+	std::string x = loader->GetString( code, "x" );
+	int y = loader->GetInt( code, "y" );
+	
+	
 	g_pIrr = createDevice( video::EDT_DIRECT3D9,	core::dimension2d<u32>(640,480) ,16, false, false, false,0);
 	driver=g_pIrr->getVideoDriver();
 	smgr=g_pIrr->getSceneManager();
@@ -90,5 +101,9 @@ int	main()
  		g_pGame->Render();
 	}
 	g_pIrr->drop();
+	
+
+	system( "pause" );
+
 	return 0;
 }
