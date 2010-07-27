@@ -324,7 +324,7 @@ bool	CGame::Update()
 			bool result=false;
 			for(int i=0;i<npcarray.size();i++)
 			{
-				if(abs(npcarray[i]->getPos().Y+npcarray[i]->getH()/2-character->getPos().Y-character->getH()/2)<=s32_max(character->getH()/2,npcarray[i]->getH()/2)||abs(npcarray[i]->getPos().X+npcarray[i]->getW()/2-character->getPos().X-character->getW()/2)<=s32_max(character->getW()/2,npcarray[i]->getW()/2))
+				if(abs(npcarray[i]->getPos().Y+npcarray[i]->getH()/2-character->getPos().Y-character->getH()/2)<=s32_max(character->getH()/2,npcarray[i]->getH()/2)&&abs(npcarray[i]->getPos().X+npcarray[i]->getW()/2-character->getPos().X-character->getW()/2)<=s32_max(character->getW()/2,npcarray[i]->getW()/2))
 				{
 					receiver.state=6;
 					receiver.change=true;
