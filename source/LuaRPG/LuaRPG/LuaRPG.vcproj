@@ -40,6 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="C:\Users\Naveay\Desktop\新建文件夹\source\LuaRPG\include"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -58,6 +59,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="irrlicht.lib lua5.1.lib lua51.lib"
+				AdditionalLibraryDirectories="C:\Users\Naveay\Desktop\新建文件夹\source\LuaRPG\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
@@ -177,6 +179,10 @@
 			</File>
 			<File
 				RelativePath=".\game.h"
+				>
+			</File>
+			<File
+				RelativePath=".\test.h"
 				>
 			</File>
 		</Filter>

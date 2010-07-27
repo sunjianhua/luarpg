@@ -85,8 +85,8 @@ int	main()
 	CLuaLoader* loader = new CLuaLoader;
 	loader->Init();
 	int code = loader->LoadFile( -1, "init.lua" );
-	std::string x = loader->GetString( code, "x" );
 	int y = loader->GetInt( code, "y" );
+	std::string x = loader->GetString( code, "x" );
 	
 	
 	g_pIrr = createDevice( video::EDT_DIRECT3D9,	core::dimension2d<u32>(640,480) ,16, false, false, false,0);
