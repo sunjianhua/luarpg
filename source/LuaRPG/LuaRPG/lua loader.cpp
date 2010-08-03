@@ -71,6 +71,16 @@ bool	CLuaLoader::Erase( int code )
 }
 
 
+bool	CLuaLoader::Clean()
+{
+	for ( int i = 0; i < m_vLuaStates.size(); i++ )
+	{
+		Erase( i );
+	}
+	return true;
+}
+
+
 int	CLuaLoader::GetInt( int code, const string& val_name )
 {
 	int return_val = 0;
@@ -148,6 +158,10 @@ int	CLuaLoader::ValidCode( int code )
 		{
 			return_val = m_vLuaStates.size();
 			m_vLuaStates.resize( 2 * m_vLuaStates.size() );
+			for ( int i = return_val; i < m_vLuaStates.size(); i++ )
+			{
+				m_vLuaStates[i] = NULL;
+			}
 		}
 
 		if ( m_vLuaStates[return_val] == NULL )
