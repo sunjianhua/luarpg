@@ -29,7 +29,7 @@ public:
 
 	//
 	virtual	bool	Erase( int code );
-	//virtual	bool	Clean();
+	virtual	bool	Clean();
 
 	//
 	virtual	int	GetInt( int code, const std::string& val_name );
