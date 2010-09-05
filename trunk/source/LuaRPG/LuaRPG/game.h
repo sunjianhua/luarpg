@@ -8,6 +8,7 @@
 
 #include <irrlicht.h>
 #include "2DTexture.h"
+#include "lua loader.h"
 using namespace irr;
 using namespace core;
 using namespace scene;
@@ -118,6 +119,33 @@ private:
 	ISceneManager* smgr;
 	IGUIEnvironment* guienv;
 	core::position2d<s32> dpos;
+	CLuaLoader* loader;
+	int treenumber;
+	int housenumber;
+	int characternumber;
+	int shopbackgroundnumber;
+	std::string* house;
+	std::string* tree;
+	std::string* cha;
+	std::string* shopbackground;
+
+	int * house01;
+	int * tree01;
+	int * cha01;
+	int * shopbackground01;
+	int * npc01;
+
+	int * housepos01;
+	int * treepos01;
+	int * chapos01;
+	int * shopbackgroundpos01;
+	int * npcpos01;
+
+	int treenumber01;
+	int housenumber01;
+	int characternumber01;
+	int shopbackgroundnumber01;
+	int npcnumber01;
 };
 
 #endif
