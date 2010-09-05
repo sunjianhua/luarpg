@@ -5,7 +5,7 @@ DTexture::DTexture()
 	pos.X=0;pos.Y=0;
 	currentTexture=0;
 	numTexture=0;
-	u32 lasttime=-1;
+	lasttime=-1;
 	state=0;
 	character=1;
 }
@@ -32,11 +32,12 @@ int DTexture::getH()
 void DTexture::setAI(int i)
 {
 	time++;
+	int t;
 	switch(i)
 	{
 	case 0:
-		int t=time/200;
-		if(t%4==0)
+		t=time/100;
+		if(t%16==0)
 		{
 			this->state=3;
 			for(int x=0;x<posarray.size();x++)
@@ -44,7 +45,7 @@ void DTexture::setAI(int i)
 				posarray[x]-=core::position2d<s32> (0,1);
 			}
 		}
-		else if(t%4==1)
+		else if(t%16==4)
 		{
 			this->state=0;
 			for(int x=0;x<posarray.size();x++)
@@ -52,7 +53,7 @@ void DTexture::setAI(int i)
 				posarray[x]+=core::position2d<s32> (0,1);
 			}
 		}
-		else if(t%4==2)
+		else if(t%16==8)
 		{
 			this->state=1;
 			for(int x=0;x<posarray.size();x++)
@@ -60,12 +61,50 @@ void DTexture::setAI(int i)
 				posarray[x]-=core::position2d<s32> (1,0);
 			}
 		}
-		else if(t%4==3)
+		else if(t%16==12)
 		{
 			this->state=2;
 			for(int x=0;x<posarray.size();x++)
 			{
 				posarray[x]+=core::position2d<s32> (1,0);
+			}
+		}
+		break;
+	case 1:
+		t=time/100;
+		if(t%16==0)
+		{
+			this->state=3;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]+=core::position2d<s32> (1,0);
+			}
+		}
+		else if(t%16==3)
+		{
+			this->state=0;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]-=core::position2d<s32> (1,0);
+			}
+		}
+		break;
+	case 2:
+		t=time/100;
+		if(t%30==0)
+		{
+			this->state=3;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]+=core::position2d<s32> (0,1);
+			}
+		}
+		else if(t%30==15)
+		{
+			this->state=0;
+			for(int x=0;x<posarray.size();x++)
+			{
+				posarray[x]-=core::position2d<s32> (0,1);
 			}
 		}
 		break;

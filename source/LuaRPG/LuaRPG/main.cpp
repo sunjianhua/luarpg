@@ -18,8 +18,6 @@ ISceneManager* smgr;
 IGUIEnvironment* guienv;
 CGame*	g_pGame;
 
-#define TEST_LUA
-
 //enum
 //{
 //	GUI_ID_START_BUTTON = 101,
@@ -83,28 +81,6 @@ CGame*	g_pGame;
 
 int	main()
 {
-	
-	
-
-#ifdef TEST_LUA
-	CLuaLoader* loader = new CLuaLoader;
-	loader->Init();
-	int code = loader->LoadFile( -1, "init.lua" );
-	int y = loader->GetInt( code, "y" );
-	std::string x = loader->GetString( code, "x" );
-	double z = loader->GetDouble( code, "z" );
-	loader->GetFieldBegin( code, "a" );
-	loader->GetFieldInt( code, 1, y );
-	loader->GetFieldString( code, "xyu", x );
-	loader->GetFieldDouble( code, 2, z );
-	loader->GetFieldEnd( code );
-	int* arr = new int[5];
-	double* arr_double = new double[5];
-	std::string* arr_string = new std::string[5];
-	loader->GetArrayInt( code, "b", arr, 1, 3 );
-	loader->GetArrayDouble( code, "c", arr_double, 2, 5 );
-	loader->GetArrayString( code, "d", arr_string, 3, 4 );
-#else
 	g_pIrr = createDevice( video::EDT_DIRECT3D9,	core::dimension2d<u32>(640,480) ,16, false, false, false,0);
 	driver=g_pIrr->getVideoDriver();
 	smgr=g_pIrr->getSceneManager();
@@ -117,12 +93,6 @@ int	main()
 		g_pGame->Render();
 	}
 	g_pIrr->drop();
-
-#endif
-	
-	
-	
-
 	system( "pause" );
 
 	return 0;

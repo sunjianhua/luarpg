@@ -7,9 +7,79 @@
 int width=640;
 int height=480;
 bool out=false;
+int hp=100;
+int enemy=200;
+core::array<int> del;
 CGame::CGame()
 {
 	dpos=core::position2d<s32>(0,0);
+	loader = new CLuaLoader;
+	loader->Init();
+	int code = loader->LoadFile( -1, "init.lua" );
+	treenumber = loader->GetInt( code, "treenumber" );
+	tree=new std::string[treenumber];
+	loader->GetArrayString( code, "tree", tree, 1, treenumber );
+
+
+	housenumber=loader->GetInt( code, "housenumber" );
+	house=new std::string[housenumber];
+	loader->GetArrayString( code, "house", house, 1, housenumber );
+
+	characternumber=loader->GetInt( code, "characternumber" );
+	cha=new std::string[characternumber];
+	loader->GetArrayString( code, "character", cha, 1, characternumber );
+
+	shopbackgroundnumber=loader->GetInt( code, "shopbackgroundnumber" );
+	shopbackground=new std::string[shopbackgroundnumber];
+	loader->GetArrayString( code, "shopbackground", shopbackground, 1, shopbackgroundnumber );
+
+	loader = new CLuaLoader;
+	loader->Init();
+	code = loader->LoadFile( -1, "setting.lua" );
+
+	treenumber01 = loader->GetInt( code, "treenumber" );
+	tree01=new int[treenumber01];
+	treepos01=new int[treenumber01*2];
+	loader->GetArrayInt( code, "tree", tree01, 1, treenumber01 );
+	loader->GetArrayInt( code, "treepos", treepos01, 1, treenumber01*2 );
+
+	housenumber01=loader->GetInt( code, "housenumber" );
+	house01=new int[housenumber01];
+	housepos01=new int[housenumber01*2];
+	loader->GetArrayInt( code, "house", house01, 1, housenumber01 );
+	loader->GetArrayInt( code, "housepos", housepos01, 1, housenumber01*2 );
+
+	characternumber01=loader->GetInt( code, "characternumber" );
+	cha01=new int[characternumber01];
+	chapos01=new int[characternumber01*2];
+	loader->GetArrayInt( code, "character", cha01, 1, characternumber01 );
+	loader->GetArrayInt( code, "characterpos", chapos01, 1, characternumber01*2 );
+
+	npcnumber01=loader->GetInt( code, "npcnumber" );
+	npc01=new int[npcnumber01];
+	npcpos01=new int[npcnumber01*2];
+	loader->GetArrayInt( code, "npc", npc01, 1,npcnumber01 );
+	loader->GetArrayInt( code, "npcpos", npcpos01, 1, npcnumber01*2 );
+
+
+	shopbackgroundnumber01=loader->GetInt( code, "shopbackgroundnumber" );
+
+	/*
+	int y = loader->GetInt( code, "y" );
+	std::string x = loader->GetString( code, "x" );
+	double z = loader->GetDouble( code, "z" );
+	loader->GetFieldBegin( code, "a" );
+	loader->GetFieldInt( code, 1, y );
+	loader->GetFieldString( code, "xyu", x );
+	loader->GetFieldDouble( code, 2, z );
+	loader->GetFieldEnd( code );
+	int* arr = new int[5];
+	double* arr_double = new double[5];
+	std::string* arr_string = new std::string[5];
+	loader->GetArrayInt( code, "b", arr, 1, 3 );
+	loader->GetArrayDouble( code, "c", arr_double, 2, 5 );
+	loader->GetArrayString( code, "d", arr_string, 3, 4 );
+	*/
 }
 
 CGame::~CGame()
@@ -18,6 +88,7 @@ CGame::~CGame()
 
 bool CGame::setScene(int num)
 {
+	int code;
 	IGUISkin* skin = guienv->getSkin();
 	video::ITexture* images;
 	IGUIFont* font;
@@ -48,63 +119,109 @@ bool CGame::setScene(int num)
 		break;
 	case 1:
 		//main character
-		images = driver->getTexture("../../data/character/character02.png");
-		w=images->getSize().Width/4;
-		h=images->getSize().Height/4;
-		character=new DTexture();
-		character->setDriver(driver);
-		character->setDevice(g_pIrr);
-		character->setSize(w,h);
-		for(int j=0;j<4;j++)
+		loader = new CLuaLoader;
+		loader->Init();
+		code = loader->LoadFile( -1, "setting.lua" );
+
+		treenumber01 = loader->GetInt( code, "treenumber" );
+		tree01=new int[treenumber01];
+		treepos01=new int[treenumber01*2];
+		loader->GetArrayInt( code, "tree", tree01, 1, treenumber01 );
+		loader->GetArrayInt( code, "treepos", treepos01, 1, treenumber01*2 );
+
+		housenumber01=loader->GetInt( code, "housenumber" );
+		house01=new int[housenumber01];
+		housepos01=new int[housenumber01*2];
+		loader->GetArrayInt( code, "house", house01, 1, housenumber01 );
+		loader->GetArrayInt( code, "housepos", housepos01, 1, housenumber01*2 );
+
+		characternumber01=loader->GetInt( code, "characternumber" );
+		cha01=new int[characternumber01];
+		chapos01=new int[characternumber01*2];
+		loader->GetArrayInt( code, "character", cha01, 1, characternumber01 );
+		loader->GetArrayInt( code, "characterpos", chapos01, 1, characternumber01*2 );
+
+		npcnumber01=loader->GetInt( code, "npcnumber" );
+		npc01=new int[npcnumber01];
+		npcpos01=new int[npcnumber01*2];
+		loader->GetArrayInt( code, "npc", npc01, 1,npcnumber01 );
+		loader->GetArrayInt( code, "npcpos", npcpos01, 1, npcnumber01*2 );
+
+
+		shopbackgroundnumber01=loader->GetInt( code, "shopbackgroundnumber" );
+
+
+		for(int a=0;a<characternumber01;a++)
 		{
-			for(int i=0;i<4;i++)
+			images = driver->getTexture(cha[cha01[a]].c_str());
+			w=images->getSize().Width/4;
+			h=images->getSize().Height/4;
+			character=new DTexture();
+			character->setDriver(driver);
+			character->setDevice(g_pIrr);
+			character->setSize(w,h);
+			for(int j=0;j<4;j++)
 			{
-				character->insert(images,core::position2d<s32>(320,240),core::rect<s32>(i*w,j*h,(i+1)*w,(j+1)*h),1);
+				for(int i=0;i<4;i++)
+				{
+					character->insert(images,core::position2d<s32>(chapos01[a*2],chapos01[a*2+1]),core::rect<s32>(i*w,j*h,(i+1)*w,(j+1)*h),1);
+				}
 			}
+			character->setState(1);
 		}
-		character->setState(1);
 		//npc
-		images = driver->getTexture("../../data/character/character01.png");
-		w=images->getSize().Width/4;
-		h=images->getSize().Height/4;
-		texture=new DTexture();
-		texture->setDriver(driver);
-		texture->setDevice(g_pIrr);
-		texture->setSize(w,h);
-		for(int j=0;j<4;j++)
+		for(int a=0;a<npcnumber01;a++)
 		{
-			for(int i=0;i<4;i++)
+			images = driver->getTexture(cha[npc01[a]].c_str());
+			w=images->getSize().Width/4;
+			h=images->getSize().Height/4;
+			texture=new DTexture();
+			texture->setDriver(driver);
+			texture->setDevice(g_pIrr);
+			texture->setSize(w,h);
+			for(int j=0;j<4;j++)
 			{
-				texture->insert(images,core::position2d<s32>(300,240),core::rect<s32>(i*w,j*h,(i+1)*w,(j+1)*h),1);
+				for(int i=0;i<4;i++)
+				{
+					texture->insert(images,core::position2d<s32>(npcpos01[a*2],npcpos01[a*2+1]),core::rect<s32>(i*w,j*h,(i+1)*w,(j+1)*h),1);
+				}
 			}
+			texture->setState(1);
+			npcarray.push_back(texture);
 		}
-		texture->setState(1);
-		npcarray.push_back(texture);
 		//trees
-		images = driver->getTexture("../../data/item/item01.png");
-		texture=new DTexture();
-		texture->setDriver(driver);
-		texture->setDevice(g_pIrr);
-		texture->insert(images,core::position2d<s32>(0,0),core::rect<s32>(0,images->getSize().Height/2+80,images->getSize().Width,images->getSize().Height),1);
-		texture->setSize(images->getSize().Width,images->getSize().Height/2-80);
-		texturearray.push_back(texture);
+		for(int a=0;a<treenumber01;a++)
+		{
+			images = driver->getTexture(tree[tree01[a]].c_str());
+			texture=new DTexture();
+			texture->setDriver(driver);
+			texture->setDevice(g_pIrr);
+			/*texture->insert(images,core::position2d<s32>(0,0),core::rect<s32>(0,images->getSize().Height/2+80,images->getSize().Width,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width,images->getSize().Height/2-80);*/
+			texture->insert(images,core::position2d<s32>(treepos01[a*2],treepos01[a*2+1]),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width,images->getSize().Height);
+			texturearray.push_back(texture);
+		}
 		//house
-
-		images = driver->getTexture("../../data/house/house01.png");
-		texture=new DTexture();
-		texture->setDriver(driver);
-		texture->setDevice(g_pIrr);
-		texture->insert(images,core::position2d<s32>(500,0),core::rect<s32>(0,images->getSize().Height/2+130,images->getSize().Width-100,images->getSize().Height),1);
-		texture->setSize(images->getSize().Width-100,images->getSize().Height/2-130);
-		housearray.push_back(texture);
-
+		for(int a=0;a<housenumber01;a++)
+		{
+			images = driver->getTexture(house[house01[a]].c_str());
+			texture=new DTexture();
+			texture->setDriver(driver);
+			texture->setDevice(g_pIrr);
+			/*texture->insert(images,core::position2d<s32>(500,0),core::rect<s32>(0,images->getSize().Height/2+130,images->getSize().Width-100,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width-100,images->getSize().Height/2-130);*/
+			texture->insert(images,core::position2d<s32>(housepos01[a*2],housepos01[a*2+1]),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width,images->getSize().Height);
+			housearray.push_back(texture);
+		}
 		//gate to outdoors
 		images = driver->getTexture("../../data/house/house01.png");
 		texture=new DTexture();
 		texture->setDriver(driver);
 		texture->setDevice(g_pIrr);
-		texture->insert(images,core::position2d<s32>(500,400),core::rect<s32>(0,images->getSize().Height/2+40,images->getSize().Width-200,images->getSize().Height/2+130),1);
-		texture->setSize(images->getSize().Width-200,90);
+		texture->insert(images,core::position2d<s32>(500,400),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+		texture->setSize(images->getSize().Width,images->getSize().Height);
 		gatearray.push_back(texture);
 		break;
 	case 2:
@@ -154,7 +271,7 @@ bool CGame::setScene(int num)
 		break;
 	case 5:
 		//main character
-		images = driver->getTexture("../../data/character/character02.png");
+		/*images = driver->getTexture("../../data/character/character02.png");
 		w=images->getSize().Width/4;
 		h=images->getSize().Height/4;
 		character=new DTexture();
@@ -202,6 +319,115 @@ bool CGame::setScene(int num)
 		texture->insert(images,core::position2d<s32>(500,400),core::rect<s32>(0,images->getSize().Height/2+40,images->getSize().Width-200,images->getSize().Height/2+130),1);
 		texture->setSize(images->getSize().Width-200,90);
 		gatearray.push_back(texture);
+		break;*/
+		loader = new CLuaLoader;
+		loader->Init();
+		code = loader->LoadFile( -1, "settingbattle1.lua" );
+
+		treenumber01 = loader->GetInt( code, "treenumber" );
+		tree01=new int[treenumber01];
+		treepos01=new int[treenumber01*2];
+		loader->GetArrayInt( code, "tree", tree01, 1, treenumber01 );
+		loader->GetArrayInt( code, "treepos", treepos01, 1, treenumber01*2 );
+
+		housenumber01=loader->GetInt( code, "housenumber" );
+		house01=new int[housenumber01];
+		housepos01=new int[housenumber01*2];
+		loader->GetArrayInt( code, "house", house01, 1, housenumber01 );
+		loader->GetArrayInt( code, "housepos", housepos01, 1, housenumber01*2 );
+
+		characternumber01=loader->GetInt( code, "characternumber" );
+		cha01=new int[characternumber01];
+		chapos01=new int[characternumber01*2];
+		loader->GetArrayInt( code, "character", cha01, 1, characternumber01 );
+		loader->GetArrayInt( code, "characterpos", chapos01, 1, characternumber01*2 );
+
+		npcnumber01=loader->GetInt( code, "npcnumber" );
+		npc01=new int[npcnumber01];
+		npcpos01=new int[npcnumber01*2];
+		loader->GetArrayInt( code, "npc", npc01, 1,npcnumber01 );
+		loader->GetArrayInt( code, "npcpos", npcpos01, 1, npcnumber01*2 );
+
+
+		shopbackgroundnumber01=loader->GetInt( code, "shopbackgroundnumber" );
+
+
+		for(int a=0;a<characternumber01;a++)
+		{
+			images = driver->getTexture(cha[cha01[a]].c_str());
+			w=images->getSize().Width/4;
+			h=images->getSize().Height/4;
+			character=new DTexture();
+			character->setDriver(driver);
+			character->setDevice(g_pIrr);
+			character->setSize(w,h);
+			for(int j=0;j<4;j++)
+			{
+				for(int i=0;i<4;i++)
+				{
+					character->insert(images,core::position2d<s32>(chapos01[a*2],chapos01[a*2+1]),core::rect<s32>(i*w,j*h,(i+1)*w,(j+1)*h),1);
+				}
+			}
+			character->setState(1);
+		}
+		//npc
+		for(int a=0;a<npcnumber01;a++)
+		{
+			images = driver->getTexture(cha[npc01[a]].c_str());
+			w=images->getSize().Width/4;
+			h=images->getSize().Height/4;
+			texture=new DTexture();
+			texture->setDriver(driver);
+			texture->setDevice(g_pIrr);
+			texture->setSize(w,h);
+			for(int j=0;j<4;j++)
+			{
+				for(int i=0;i<4;i++)
+				{
+					texture->insert(images,core::position2d<s32>(npcpos01[a*2],npcpos01[a*2+1]),core::rect<s32>(i*w,j*h,(i+1)*w,(j+1)*h),1);
+				}
+			}
+			texture->setState(1);
+			npcarray.push_back(texture);
+		}
+		for(int a=0;a<del.size();a++)
+		{
+			npcarray.erase(del[a]);
+		}
+		//trees
+		for(int a=0;a<treenumber01;a++)
+		{
+			images = driver->getTexture(tree[tree01[a]].c_str());
+			texture=new DTexture();
+			texture->setDriver(driver);
+			texture->setDevice(g_pIrr);
+			/*texture->insert(images,core::position2d<s32>(0,0),core::rect<s32>(0,images->getSize().Height/2+80,images->getSize().Width,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width,images->getSize().Height/2-80);*/
+			texture->insert(images,core::position2d<s32>(treepos01[a*2],treepos01[a*2+1]),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width,images->getSize().Height);
+			texturearray.push_back(texture);
+		}
+		//house
+		for(int a=0;a<housenumber01;a++)
+		{
+			images = driver->getTexture(house[house01[a]].c_str());
+			texture=new DTexture();
+			texture->setDriver(driver);
+			texture->setDevice(g_pIrr);
+			/*texture->insert(images,core::position2d<s32>(500,0),core::rect<s32>(0,images->getSize().Height/2+130,images->getSize().Width-100,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width-100,images->getSize().Height/2-130);*/
+			texture->insert(images,core::position2d<s32>(housepos01[a*2],housepos01[a*2+1]),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+			texture->setSize(images->getSize().Width,images->getSize().Height);
+			housearray.push_back(texture);
+		}
+		//gate to outdoors
+		images = driver->getTexture("../../data/house/house01.png");
+		texture=new DTexture();
+		texture->setDriver(driver);
+		texture->setDevice(g_pIrr);
+		texture->insert(images,core::position2d<s32>(500,400),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+		texture->setSize(images->getSize().Width,images->getSize().Height);
+		gatearray.push_back(texture);
 		break;
 	case 6:
 		images = driver->getTexture("../../data/Battlebacks/002-Woods01.jpg");
@@ -210,11 +436,27 @@ bool CGame::setScene(int num)
 		background->setDevice(g_pIrr);
 		background->insert(images,core::position2d<s32>((640-images->getSize().Width)/2,(480-images->getSize().Height)/2),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
 		background->setSize(images->getSize().Width,images->getSize().Height);
+		images = driver->getTexture("../../data/Battlers/004-Fighter04.png");
+		texture=new DTexture();
+		texture->setDriver(driver);
+		texture->setDevice(g_pIrr);
+		texture->insert(images,core::position2d<s32>(700*width/1024,204*height/768),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+		texture->setSize(images->getSize().Width,images->getSize().Height);
+		texturearray.push_back(texture);
+
+		images = driver->getTexture("../../data/Battlers/099-Monster13.png");
+		texture=new DTexture();
+		texture->setDriver(driver);
+		texture->setDevice(g_pIrr);
+		texture->insert(images,core::position2d<s32>(-100*width/1024,44*height/768),core::rect<s32>(0,0,images->getSize().Width,images->getSize().Height),1);
+		texture->setSize(images->getSize().Width,images->getSize().Height);
+		texturearray.push_back(texture);
+		dpos.X=5;
 
 		font = guienv->getFont("../../media/fonthaettenschweiler.bmp");
 		skin->setFont(guienv->getBuiltInFont(), EGDF_TOOLTIP);
 		g_pIrr->setEventReceiver(&receiver);
-		break;
+		enemy=100;
 		break;
 
 	default:
@@ -256,7 +498,7 @@ bool	CGame::Render()
 		}
 		for(int i=0;i<npcarray.size();i++)
 		{
-			npcarray[i]->setAI(0);
+			npcarray[i]->setAI(i%3);
 			npcarray[i]->setPos(dpos);
 			npcarray[i]->draw();
 		}
@@ -285,7 +527,7 @@ bool	CGame::Render()
 		}
 		for(int i=0;i<npcarray.size();i++)
 		{
-			npcarray[i]->setAI(0);
+			npcarray[i]->setAI(i%3);
 			npcarray[i]->setPos(dpos);
 			npcarray[i]->draw();
 		}
@@ -298,6 +540,17 @@ bool	CGame::Render()
 		break;
 	case 6:
 		background->draw();
+		
+		for(int i=0;i<texturearray.size();i++)
+		{
+			texturearray[i]->setPos(dpos);
+			texturearray[i]->draw();
+		}
+		for(int i=0;i<npcarray.size();i++)
+		{
+			npcarray[i]->setPos(dpos);
+			npcarray[i]->draw();
+		}
 		break;
 	}
 	smgr->drawAll();
@@ -314,11 +567,18 @@ bool CGame::Reset()
 	itemarray.clear();
 	smgr->clear();
 	guienv->clear();
+	dpos.X=0;
+	dpos.Y=0;
 	return true;
 }
-
+bool clic=false;
 bool	CGame::Update()
 {
+		video::ITexture* images;
+		IGUIFont* font;
+		int w;
+		int h;
+		DTexture * texture;
 		if(receiver.state==5)
 		{
 			bool result=false;
@@ -326,6 +586,7 @@ bool	CGame::Update()
 			{
 				if(abs(npcarray[i]->getPos().Y+npcarray[i]->getH()/2-character->getPos().Y-character->getH()/2)<=s32_max(character->getH()/2,npcarray[i]->getH()/2)&&abs(npcarray[i]->getPos().X+npcarray[i]->getW()/2-character->getPos().X-character->getW()/2)<=s32_max(character->getW()/2,npcarray[i]->getW()/2))
 				{
+					del.push_back(i);
 					receiver.state=6;
 					receiver.change=true;
 					break;
@@ -512,6 +773,82 @@ bool	CGame::Update()
 					out=false;
 					dpos.X--;
 				}
+			}
+		}
+		else if(receiver.state==6)
+		{
+			if(receiver.IsKeyDown(irr::KEY_KEY_J)&&!clic)
+			{
+				clic=true;
+				images = driver->getTexture("../../data/Animations/001-Action01.png");
+				int w=images->getSize().Width/5;
+				int h=images->getSize().Height/2;
+				texture=new DTexture();
+				texture->setDriver(driver);
+				texture->setDevice(g_pIrr);
+				texture->setSize(w,h);
+				for(int i=0;i<4;i++)
+				{
+					for(int j=0;j<4;j++)
+					{
+						texture->insert(images,core::position2d<s32>(100*width/1024,234*height/768),core::rect<s32>((j+1)*w,0,(j+2)*w,h),1);
+					}
+				}
+				texture->setState(0);
+				npcarray.push_back(texture);
+				
+
+			}
+			else if(receiver.IsKeyDown(irr::KEY_KEY_K)&&!clic)
+			{
+				clic=true;
+				images = driver->getTexture("../../data/Animations/003-Attack01.png");
+				int w=images->getSize().Width/5;
+				int h=images->getSize().Height/2;
+				texture=new DTexture();
+				texture->setDriver(driver);
+				texture->setDevice(g_pIrr);
+				texture->setSize(w,h);
+				for(int i=0;i<4;i++)
+				{
+					for(int j=0;j<4;j++)
+					{
+						texture->insert(images,core::position2d<s32>(100*width/1024,234*height/768),core::rect<s32>((j+1)*w,0,(j+2)*w,h),1);
+					}
+				}
+				texture->setState(0);
+				npcarray.push_back(texture);
+
+
+			}
+			else if(receiver.IsKeyDown(irr::KEY_KEY_L)&&!clic)
+			{
+				clic=true;
+				images = driver->getTexture("../../data/Animations/015-Fire01.png");
+				int w=images->getSize().Width/5;
+				int h=images->getSize().Height/2;
+				texture=new DTexture();
+				texture->setDriver(driver);
+				texture->setDevice(g_pIrr);
+				texture->setSize(w,h);
+				for(int i=0;i<4;i++)
+				{
+					for(int j=0;j<4;j++)
+					{
+						texture->insert(images,core::position2d<s32>(100*width/1024,234*height/768),core::rect<s32>((j+0)*w,0,(j+1)*w,h),1);
+					}
+				}
+				texture->setState(0);
+				npcarray.push_back(texture);
+
+
+			}
+			
+			if(enemy<0)
+			{
+				receiver.state=5;
+				receiver.change=true;
+
 			}
 		}
 		else if(receiver.state==1)
@@ -717,6 +1054,27 @@ bool	CGame::Update()
 			}
 		}
 	
+		if(receiver.state==6&&!receiver.IsKeyDown(irr::KEY_KEY_J)&&!receiver.IsKeyDown(irr::KEY_KEY_K)&&!receiver.IsKeyDown(irr::KEY_KEY_L))
+		{
+			clic=false;
+			npcarray.clear();
+		}
+		else if(receiver.state==6)
+		{
+			dpos.X=-dpos.X;
+			if(receiver.IsKeyDown(irr::KEY_KEY_J))
+			{
+				enemy-=1;
+			}
+			if(receiver.IsKeyDown(irr::KEY_KEY_K))
+			{
+				enemy-=2;
+			}
+			if(receiver.IsKeyDown(irr::KEY_KEY_L))
+			{
+				enemy-=5;
+			}
+		}
 		if(receiver.change)
 		{
 			this->Reset();
