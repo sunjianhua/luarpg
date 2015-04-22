@@ -1,0 +1,1 @@
+Project summary will be shown whenever the project's name is displayed.
